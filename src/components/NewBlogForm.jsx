@@ -1,0 +1,48 @@
+import { useState } from "react";
+import blogsService from "../services/blogs";
+
+const NewBlogForm = ({ token, blogs, setBlogs }) => {
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [url, setUrl] = useState("");
+
+  const handleAddNewBlog = async event => {
+    event.preventDefault();
+
+    try {
+      const newBlog = await blogsService.addBlog({ title, author, url }, token);
+      console.log("Blog successfully added!");
+      setBlogs([...blogs, newBlog]);
+      setTitle("");
+      setAuthor("");
+      setUrl("");
+    } catch (error) {
+      console.log("Could not add blog! \n", error);
+    }
+  };
+
+  return (
+    <form onSubmit={handleAddNewBlog}>
+      <h2>Create new</h2>
+      <label>
+        title:
+        <input type="text" name="title" value={title} onChange={e => setTitle(e.target.value)} required />
+      </label>
+      <br />
+      <label>
+        author:
+        <input type="text" name="author" value={author} onChange={e => setAuthor(e.target.value)} />
+      </label>
+      <br />
+      <label>
+        url:
+        <input type="text" name="url" value={url} onChange={e => setUrl(e.target.value)} required />
+      </label>
+      <br />
+      <button type="submit">submit</button>
+      <br />
+    </form>
+  );
+};
+
+export default NewBlogForm;
