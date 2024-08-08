@@ -10,12 +10,13 @@ const LoginForm = ({ headerText, setUser }) => {
 
     try {
       const user = await loginService.login({ username, password });
+      window.localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
       setUsername("");
       setPassword("");
       console.log("Login Successful!");
-    } catch (exception) {
-      console.log("Login Failed! - \n", exception);
+    } catch (error) {
+      console.log("Login Failed! - \n", error.response.data);
     }
   };
 
