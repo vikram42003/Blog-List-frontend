@@ -1,7 +1,7 @@
 import { useState } from "react";
 import loginService from "../services/login";
 
-const LoginForm = ({ headerText, setUser }) => {
+const LoginForm = ({ headerText, setUser, setNotification }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,9 +14,16 @@ const LoginForm = ({ headerText, setUser }) => {
       setUser(user);
       setUsername("");
       setPassword("");
-      console.log("Login Successful!");
+      setNotification(`success.Logged in as ${user.name}`);
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
     } catch (error) {
       console.log("Login Failed! - \n", error.response.data);
+      setNotification(`failure.Could not log in - ${error.response.data.error}`);
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
     }
   };
 
@@ -26,13 +33,13 @@ const LoginForm = ({ headerText, setUser }) => {
 
       <label htmlFor="username">
         username &nbsp;
-        <input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} />
+        <input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} required/>
       </label>
       <br />
 
       <label htmlFor="password">
         password &nbsp;
-        <input type="text" id="password" value={password} onChange={e => setPassword(e.target.value)} />
+        <input type="text" id="password" value={password} onChange={e => setPassword(e.target.value)}  required/>
       </label>
       <br />
 

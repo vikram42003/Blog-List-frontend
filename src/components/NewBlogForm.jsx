@@ -1,7 +1,7 @@
 import { useState } from "react";
 import blogsService from "../services/blogs";
 
-const NewBlogForm = ({ token, blogs, setBlogs }) => {
+const NewBlogForm = ({ token, blogs, setBlogs, setNotification }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -16,8 +16,16 @@ const NewBlogForm = ({ token, blogs, setBlogs }) => {
       setTitle("");
       setAuthor("");
       setUrl("");
+      setNotification(`success.${title} by ${author} was added`);
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
     } catch (error) {
       console.log("Could not add blog! \n", error);
+      setNotification(`failure.Could not add blog - ${error.response.data.error}`);
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
     }
   };
 
