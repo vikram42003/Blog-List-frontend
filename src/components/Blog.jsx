@@ -1,7 +1,7 @@
 import { useState } from "react";
 import blogsService from "../services/blogs";
 
-const Blog = ({ blog, blogs, setBlogs, setNotification }) => {
+const Blog = ({ user, blog, blogs, setBlogs, setNotification }) => {
   const [showDetails, setShowDetails] = useState(false);
 
   const blogStyle = {
@@ -16,7 +16,7 @@ const Blog = ({ blog, blogs, setBlogs, setNotification }) => {
     setShowDetails(!showDetails);
   };
 
-  const updateLikes = async () => {
+  const handleUpdateLikes = async () => {
     try {
       const newBlog = await blogsService.updateLikes({ ...blog, user: blog.user?.id, likes: blog.likes + 1 });
       const newBlogs = blogs.map(blog => (blog.id === newBlog.id ? newBlog : blog));
@@ -31,6 +31,25 @@ const Blog = ({ blog, blogs, setBlogs, setNotification }) => {
     }
   };
 
+  const handleDeleteBlog = async () => {
+    if (window.confirm(`remove blog ${blog.title} by ${blog.author} ?`)) {
+      try {
+        await blogsService.deleteBlog(blog.id);
+        setBlogs(blogs.filter(b => b.id !== blog.id));
+        setNotification(`success.${blog.title} by ${blog.author} was deleted`);
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+      } catch (error) {
+        console.log(error);
+        setNotification(`failure.Could not delete blog - ${error.response.data.error}`);
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+      }
+    }
+  };
+
   return showDetails ? (
     <div style={blogStyle}>
       {blog.title}{" "}
@@ -40,11 +59,14 @@ const Blog = ({ blog, blogs, setBlogs, setNotification }) => {
       <br />
       {blog.url} <br />
       {`likes ${blog.likes} `}{" "}
-      <button type="button" onClick={() => updateLikes()}>
+      <button type="button" onClick={handleUpdateLikes}>
         like
       </button>
       <br />
       {blog.author} <br />
+      {blog.user && blog.user.username === user.username && <button type="button" onClick={handleDeleteBlog}>
+        remove
+      </button>}
     </div>
   ) : (
     <div style={blogStyle}>
