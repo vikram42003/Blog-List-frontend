@@ -1,7 +1,7 @@
 import { useState } from "react";
 import blogsService from "../services/blogs";
 
-const NewBlogForm = ({ token, blogs, setBlogs, setNotification, newNoteFormRef }) => {
+const NewBlogForm = ({ blogs, setBlogs, setNotification, newNoteFormRef }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -10,7 +10,7 @@ const NewBlogForm = ({ token, blogs, setBlogs, setNotification, newNoteFormRef }
     event.preventDefault();
 
     try {
-      const newBlog = await blogsService.addBlog({ title, author, url }, token);
+      const newBlog = await blogsService.addBlog({ title, author, url });
       console.log("Blog successfully added!");
       newNoteFormRef.current.toggleVisibility();
       setBlogs([...blogs, newBlog]);

@@ -18,12 +18,17 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs => setBlogs(blogs));
     const storedUser = window.localStorage.getItem("user");
-    if (storedUser) setUser(JSON.parse(storedUser));
+    if (storedUser) {
+      const usr = JSON.parse(storedUser);
+      setUser(usr);
+      blogService.setToken(usr.token);
+    }
   }, []);
 
   const handleLogout = () => {
     window.localStorage.removeItem("user");
     setUser(null);
+    blogService.setToken(null);
     setNotification("success.Successfully logged out");
     setTimeout(() => {
       setNotification(null);
@@ -46,7 +51,6 @@ const App = () => {
           </p>
           <Togglable buttonLabel="new blog" ref={newNoteFormRef}>
             <NewBlogForm
-              token={user.token}
               blogs={blogs}
               setBlogs={setBlogs}
               setNotification={setNotification}
@@ -54,7 +58,7 @@ const App = () => {
             />
           </Togglable>
           {blogs.map(blog => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} setNotification={setNotification} />
           ))}
         </div>
       )}

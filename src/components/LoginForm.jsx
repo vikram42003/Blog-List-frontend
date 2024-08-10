@@ -1,5 +1,6 @@
 import { useState } from "react";
 import loginService from "../services/login";
+import blogsService from "../services/blogs";
 
 const LoginForm = ({ headerText, setUser, setNotification }) => {
   const [username, setUsername] = useState("");
@@ -12,6 +13,7 @@ const LoginForm = ({ headerText, setUser, setNotification }) => {
       const user = await loginService.login({ username, password });
       window.localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
+      blogsService.setToken(JSON.stringify(user).token);
       setUsername("");
       setPassword("");
       setNotification(`success.Logged in as ${user.name}`);
