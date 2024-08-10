@@ -19,7 +19,9 @@ const Blog = ({ blog, blogs, setBlogs, setNotification }) => {
   const updateLikes = async () => {
     try {
       const newBlog = await blogsService.updateLikes({ ...blog, user: blog.user?.id, likes: blog.likes + 1 });
-      setBlogs(blogs.map(blog => (blog.id === newBlog.id ? newBlog : blog)));
+      const newBlogs = blogs.map(blog => (blog.id === newBlog.id ? newBlog : blog));
+      newBlogs.sort((a, b) => b.likes - a.likes);
+      setBlogs(newBlogs);
     } catch (error) {
       console.log(error);
       setNotification("failure.Error occured when liking");

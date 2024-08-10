@@ -16,7 +16,11 @@ const App = () => {
   const newNoteFormRef = useRef();
 
   useEffect(() => {
-    blogService.getAll().then(blogs => setBlogs(blogs));
+    blogService.getAll().then(blogs => {
+      blogs.sort((a, b) => b.likes - a.likes);
+      setBlogs(blogs);
+    });
+
     const storedUser = window.localStorage.getItem("user");
     if (storedUser) {
       const usr = JSON.parse(storedUser);
