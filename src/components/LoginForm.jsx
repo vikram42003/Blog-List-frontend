@@ -39,7 +39,7 @@ const LoginForm = ({ headerText, setUser, setNotification }) => {
 
       <label htmlFor="password">
         password &nbsp;
-        <input type="text" id="password" value={password} onChange={e => setPassword(e.target.value)}  required/>
+        <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)}  required/>
       </label>
       <br />
 
