@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import blogService from "./services/blogs";
 
@@ -6,11 +6,14 @@ import Blog from "./components/Blog";
 import LoginForm from "./components/LoginForm";
 import NewBlogForm from "./components/NewBlogForm";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 
 const App = () => {
   const [user, setUser] = useState(null);
   const [blogs, setBlogs] = useState([]);
   const [notification, setNotification] = useState(null);
+
+  const newNoteFormRef = useRef();
 
   useEffect(() => {
     blogService.getAll().then(blogs => setBlogs(blogs));
@@ -29,9 +32,9 @@ const App = () => {
 
   return (
     <>
-      {notification && <Notification notification={notification}/>}
+      {notification && <Notification notification={notification} />}
       {user === null ? (
-        <LoginForm headerText="log in to application" setUser={setUser} setNotification={setNotification}/>
+        <LoginForm headerText="log in to application" setUser={setUser} setNotification={setNotification} />
       ) : (
         <div>
           <h2>blogs</h2>
@@ -41,7 +44,15 @@ const App = () => {
               log out
             </button>
           </p>
-          <NewBlogForm token={user.token} blogs={blogs} setBlogs={setBlogs} setNotification={setNotification}/>
+          <Togglable buttonLabel="new blog" ref={newNoteFormRef}>
+            <NewBlogForm
+              token={user.token}
+              blogs={blogs}
+              setBlogs={setBlogs}
+              setNotification={setNotification}
+              newNoteFormRef={newNoteFormRef}
+            />
+          </Togglable>
           {blogs.map(blog => (
             <Blog key={blog.id} blog={blog} />
           ))}
