@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import loginService from "../services/login";
 import blogsService from "../services/blogs";
 
@@ -35,19 +36,25 @@ const LoginForm = ({ headerText, setUser, setNotification }) => {
 
       <label htmlFor="username">
         username &nbsp;
-        <input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} required/>
+        <input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} required />
       </label>
       <br />
 
       <label htmlFor="password">
         password &nbsp;
-        <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)}  required/>
+        <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} required />
       </label>
       <br />
 
       <button type="submit">Login</button>
     </form>
   );
+};
+
+LoginForm.propTypes = {
+  headerText: PropTypes.string.isRequired,
+  setUser: PropTypes.func.isRequired,
+  setNotification: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

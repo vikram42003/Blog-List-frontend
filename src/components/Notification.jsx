@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const Notification = ({ notification }) => {
   const [notifType, notifMessage] = notification.split(".");
 
@@ -13,11 +15,11 @@ const Notification = ({ notification }) => {
     marginBottom: 10,
   };
 
-  return (
-    <div style={notificationStyle}>
-      {notifMessage}
-    </div>
-  )
+  return <div style={notificationStyle}>{notifMessage}</div>;
+};
+
+Notification.propTypes = {
+  notification: PropTypes.string.isRequired,
 };
 
 export default Notification;

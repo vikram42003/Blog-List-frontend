@@ -1,5 +1,6 @@
 import { useState } from "react";
 import blogsService from "../services/blogs";
+import PropTypes from "prop-types";
 
 const Blog = ({ user, blog, blogs, setBlogs, setNotification }) => {
   const [showDetails, setShowDetails] = useState(false);
@@ -64,9 +65,11 @@ const Blog = ({ user, blog, blogs, setBlogs, setNotification }) => {
       </button>
       <br />
       {blog.author} <br />
-      {blog.user && blog.user.username === user.username && <button type="button" onClick={handleDeleteBlog}>
-        remove
-      </button>}
+      {blog.user && blog.user.username === user.username && (
+        <button type="button" onClick={handleDeleteBlog}>
+          remove
+        </button>
+      )}
     </div>
   ) : (
     <div style={blogStyle}>
@@ -76,6 +79,14 @@ const Blog = ({ user, blog, blogs, setBlogs, setNotification }) => {
       </button>
     </div>
   );
+};
+
+Blog.propTypes = {
+  user: PropTypes.object.isRequired,
+  blog: PropTypes.object.isRequired,
+  blogs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setBlogs: PropTypes.func.isRequired,
+  setNotification: PropTypes.func.isRequired,
 };
 
 export default Blog;
