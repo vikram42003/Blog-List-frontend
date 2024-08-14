@@ -67,4 +67,48 @@ describe("<Blog />", () => {
     screen.getByText(/some url/);
     screen.getByText(/likes 20/);
   });
+
+  it("if like button is clicked twice, two clicks are registered", async () => {
+    // DISABLE THIS TEST FROM LOGGING TO CONSOLE
+    // Store the original console methods
+    const originalConsoleLog = console.log;
+    const originalConsoleError = console.error;
+
+    // Override console methods to suppress output
+    console.log = () => {};
+    console.error = () => {};
+
+    const testData = {
+      title: "testing in react",
+      author: "some author",
+      url: "some url",
+      likes: 15,
+    };
+    render(
+      <Blog
+        user={mockUser}
+        blog={testData}
+        blogs={mockBlogs}
+        setBlogs={mockSetBlogs}
+        setNotification={mockSetNotification}
+      />
+    );
+
+    const viewButton = screen.getByText("view");
+
+    const user = userEvent.setup();
+    await user.click(viewButton);
+
+    const likeButton = screen.getByText("like");
+    await user.dblClick(likeButton);
+
+    // NOTE - we check that handleUpdateLikes is called to update the likes on the blog post by checking
+    // that the function that is called on an error, which is setNotification, is called 2 times
+    // the api request will always fail and throw an error since we're passing mock objects instead of proper objects
+    expect(mockSetNotification.mock.calls.length).toBe(2);
+
+    // Restore the original console methods
+    console.log = originalConsoleLog;
+    console.error = originalConsoleError;
+  });
 });
