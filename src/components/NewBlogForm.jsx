@@ -24,7 +24,12 @@ const NewBlogForm = ({ blogs, setBlogs, setNotification, newBlogFormRef }) => {
       }, 5000);
     } catch (error) {
       console.log("Could not add blog! \n", error);
-      setNotification(`failure.Could not add blog - ${error.response.data.error}`);
+      if (error.response) {
+        setNotification(`failure.Could not add blog - ${error.response.data.error}`);
+      } else {
+        setNotification(`failure.Could not add blog`);
+      }
+        
       setTimeout(() => {
         setNotification(null);
       }, 5000);
