@@ -2,7 +2,7 @@ import { useState } from "react";
 import blogsService from "../services/blogs";
 import PropTypes from "prop-types";
 
-const NewBlogForm = ({ blogs, setBlogs, setNotification, newNoteFormRef }) => {
+const NewBlogForm = ({ blogs, setBlogs, setNotification, newBlogFormRef }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -13,7 +13,7 @@ const NewBlogForm = ({ blogs, setBlogs, setNotification, newNoteFormRef }) => {
     try {
       const newBlog = await blogsService.addBlog({ title, author, url });
       console.log("Blog successfully added!");
-      newNoteFormRef.current.toggleVisibility();
+      newBlogFormRef.current.toggleVisibility();
       setBlogs([...blogs, newBlog]);
       setTitle("");
       setAuthor("");
@@ -59,7 +59,7 @@ NewBlogForm.propTypes = {
   blogs: PropTypes.arrayOf(PropTypes.object).isRequired,
   setBlogs: PropTypes.func.isRequired,
   setNotification: PropTypes.func.isRequired,
-  newNoteFormRef: PropTypes.any.isRequired,
+  newBlogFormRef: PropTypes.any.isRequired,
 };
 
 export default NewBlogForm;

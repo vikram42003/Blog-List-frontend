@@ -11,7 +11,7 @@ import Blog from "../../src/components/Blog";
 // setNotification: PropTypes.func.isRequired,
 describe("<Blog />", () => {
   const mockUser = {};
-  const mockBlog = {};
+  // const mockBlog = {};
   const mockBlogs = [{}];
   const mockSetBlogs = vi.fn();
   const mockSetNotification = vi.fn();
