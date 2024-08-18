@@ -68,6 +68,19 @@ describe("Blog app", () => {
         await page.getByRole("button", { name: "like" }).click();
         await expect(page.getByText(/likes 1/)).toBeVisible();
       });
+
+      test("a blog can be deleted by its creator", async ({ page }) => {
+        page.on('dialog', dialog => dialog.accept());
+
+        const blogLocator = page.getByText("test title - by playwright");
+        await blogLocator.getByRole("button", { name: "view" }).click();
+
+        const deleteButton = page.getByRole("button", { name: "remove" });
+        await expect(deleteButton).toBeVisible();
+        await deleteButton.click();
+
+        await expect(page.getByText(/test title - by playwright/)).not.toBeVisible();
+      });
     });
   });
 });
