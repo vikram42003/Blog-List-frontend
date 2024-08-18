@@ -70,7 +70,7 @@ describe("Blog app", () => {
       });
 
       test("a blog can be deleted by its creator", async ({ page }) => {
-        page.on('dialog', dialog => dialog.accept());
+        page.on("dialog", dialog => dialog.accept());
 
         const blogLocator = page.getByText("test title - by playwright");
         await blogLocator.getByRole("button", { name: "view" }).click();
@@ -80,6 +80,24 @@ describe("Blog app", () => {
         await deleteButton.click();
 
         await expect(page.getByText(/test title - by playwright/)).not.toBeVisible();
+      });
+
+      test("a blog cannot be deleted by someone whos not the creator", async ({ page, request }) => {
+        page.on("dialog", dialog => dialog.accept());
+
+        await page.getByRole("button", { name: "log out" }).click();
+        await request.post("/api/users", {
+          data: {
+            username: "secondUser",
+            name: "secondUser",
+            password: "54321",
+          },
+        });
+        await loginWith(page, "secondUser", "54321");
+
+        await page.getByText("yet another blog - by who knows").getByRole("button", { name: "view" }).click();
+
+        await expect(page.getByRole("button", { name: "remove" })).not.toBeVisible();
       });
     });
   });
