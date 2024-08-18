@@ -14,7 +14,7 @@ const LoginForm = ({ headerText, setUser, setNotification }) => {
       const user = await loginService.login({ username, password });
       window.localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
-      blogsService.setToken(JSON.stringify(user).token);
+      blogsService.setToken(user.token);
       setUsername("");
       setPassword("");
       setNotification(`success.Logged in as ${user.name}`);
