@@ -1,4 +1,5 @@
 const { test, expect, beforeEach, describe } = require("@playwright/test");
+const { loginWith, createBlog } = require("./helper");
 
 describe("Blog app", () => {
   beforeEach(async ({ page, request }) => {
@@ -26,22 +27,30 @@ describe("Blog app", () => {
     await expect(loginButton).toBeVisible();
   });
 
-  describe.only("Login", () => {
+  describe("Login", () => {
     test("succeeds with correct credentials", async ({ page }) => {
-      await page.getByLabel("username").fill("test");
-      await page.getByLabel("password").fill("12345");
-      await page.getByRole("button", { name: "Login" }).click();
+      await loginWith(page, "test", "12345");
 
       await expect(page.getByText("testUser logged in")).toBeVisible();
-    })
+    });
 
     test("fails with wrong credentials", async ({ page }) => {
-      await page.getByLabel("username").fill("test");
-      await page.getByLabel("password").fill("incorrect");
-      await page.getByRole("button", { name: "Login" }).click();
+      await loginWith(page, "test", "incorrect");
 
       await expect(page.getByText("testUser logged in")).not.toBeVisible();
       await expect(page.getByText("Could not log in - username or password is incorrect")).toBeVisible();
-    })
+    });
+  });
+
+  describe("When logged in", () => {
+    beforeEach(async ({ page }) => {
+      await loginWith(page, "test", "12345");
+    });
+
+    test("a new blog can be created", async ({ page }) => {
+      await createBlog(page, { title: "test title", author: "playwright", url: "no url" });
+
+      await expect(page.getByText("test title - by playwright")).toBeVisible();
+    });
   });
 });
