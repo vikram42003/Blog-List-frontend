@@ -65,7 +65,7 @@ const Blog = ({ user, blog, blogs, setBlogs, setNotification }) => {
       </button>
       <br />
       {blog.author} <br />
-      {blog.user && blog.user.username === user.username && (
+      {blog.user.username === user.username && (
         <button type="button" onClick={handleDeleteBlog}>
           remove
         </button>

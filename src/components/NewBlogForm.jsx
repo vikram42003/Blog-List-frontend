@@ -14,6 +14,14 @@ const NewBlogForm = ({ blogs, setBlogs, setNotification, newBlogFormRef }) => {
       const newBlog = await blogsService.addBlog({ title, author, url });
       console.log("Blog successfully added!");
       newBlogFormRef.current.toggleVisibility();
+
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      newBlog.user = {
+        id: newBlog.user,
+        name: storedUser.name,
+        username: storedUser.username
+      }
+
       setBlogs([...blogs, newBlog]);
       setTitle("");
       setAuthor("");
