@@ -14,4 +14,13 @@ const createBlog = async (page, blog) => {
   await page.getByText(`${blog.title} - by ${blog.author}`).waitFor();
 };
 
-module.exports = { loginWith, createBlog };
+const likeBlog = async (page, title, num) => {
+  await page.getByText(title).getByRole("button", { name: "view" }).click();
+  const likeButton = await page.getByText(/likes/).getByRole("button", { name: "like" });
+  for (let i = 0; i < num; i++) {
+    await likeButton.click();
+  }
+  await page.getByText(`likes ${num}`).getByRole("button", { name: "hide" }).click();
+};
+
+module.exports = { loginWith, createBlog, likeBlog };

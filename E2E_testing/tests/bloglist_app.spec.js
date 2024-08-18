@@ -1,5 +1,5 @@
 const { test, expect, beforeEach, describe } = require("@playwright/test");
-const { loginWith, createBlog } = require("./helper");
+const { loginWith, createBlog, likeBlog } = require("./helper");
 
 describe("Blog app", () => {
   beforeEach(async ({ page, request }) => {
@@ -96,8 +96,19 @@ describe("Blog app", () => {
         await loginWith(page, "secondUser", "54321");
 
         await page.getByText("yet another blog - by who knows").getByRole("button", { name: "view" }).click();
-
         await expect(page.getByRole("button", { name: "remove" })).not.toBeVisible();
+      });
+
+      test("the blogs are arranged in descending order", async ({ page }) => {
+        await likeBlog(page, "yet another blog - by who knows", 5);
+        await likeBlog(page, "another blog - by me", 3);
+        await likeBlog(page, "test title - by playwright", 1);
+
+        await page.getByText("yet another blog - by who knows").getByRole("button", { name: "view" }).click()
+        await page.getByText("another blog - by me").getByRole("button", { name: "view" }).click()
+        await page.getByText("test title - by playwright").getByRole("button", { name: "view" }).click()
+
+        await expect(page.getByText("likes")).toHaveText([/likes 5/, /likes 3/, /likes 1/]);
       });
     });
   });
