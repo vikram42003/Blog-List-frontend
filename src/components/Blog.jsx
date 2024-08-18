@@ -19,8 +19,9 @@ const Blog = ({ user, blog, blogs, setBlogs, setNotification }) => {
 
   const handleUpdateLikes = async () => {
     try {
-      const newBlog = await blogsService.updateLikes({ ...blog, user: blog.user?.id, likes: blog.likes + 1 });
-      const newBlogs = blogs.map(blog => (blog.id === newBlog.id ? newBlog : blog));
+      blog.likes = blog.likes + 1;
+      await blogsService.updateLikes(blog);
+      const newBlogs = blogs.map(b => (b.id === blog.id ? blog : b));
       newBlogs.sort((a, b) => b.likes - a.likes);
       setBlogs(newBlogs);
     } catch (error) {
