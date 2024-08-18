@@ -29,7 +29,7 @@ const NewBlogForm = ({ blogs, setBlogs, setNotification, newBlogFormRef }) => {
       } else {
         setNotification(`failure.Could not add blog`);
       }
-        
+
       setTimeout(() => {
         setNotification(null);
       }, 5000);
@@ -64,7 +64,7 @@ NewBlogForm.propTypes = {
   blogs: PropTypes.arrayOf(PropTypes.object).isRequired,
   setBlogs: PropTypes.func.isRequired,
   setNotification: PropTypes.func.isRequired,
-  newBlogFormRef: PropTypes.any.isRequired,
+  newBlogFormRef: PropTypes.any,
 };
 
 export default NewBlogForm;

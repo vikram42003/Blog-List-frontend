@@ -3,9 +3,9 @@ const baseUrl = "/api/blogs";
 
 let token = null;
 
-const setToken = (t) => {
+const setToken = t => {
   token = t;
-}
+};
 
 const getAll = () => {
   const request = axios.get(baseUrl);
@@ -46,6 +46,6 @@ const deleteBlog = async blogId => {
     : null;
   const response = await axios.delete(`${baseUrl}/${blogId}`, config || {});
   return response.data;
-}
+};
 
 export default { setToken, getAll, addBlog, updateLikes, deleteBlog };

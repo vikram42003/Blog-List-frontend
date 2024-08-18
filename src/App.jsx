@@ -13,7 +13,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [notification, setNotification] = useState(null);
 
-  const newNoteFormRef = useRef();
+  const newBlogFormRef = useRef();
 
   useEffect(() => {
     blogService.getAll().then(blogs => {
@@ -53,12 +53,12 @@ const App = () => {
               log out
             </button>
           </p>
-          <Togglable buttonLabel="new blog" ref={newNoteFormRef}>
+          <Togglable buttonLabel="new blog" ref={newBlogFormRef}>
             <NewBlogForm
               blogs={blogs}
               setBlogs={setBlogs}
               setNotification={setNotification}
-              newNoteFormRef={newNoteFormRef}
+              newBlogFormRef={newBlogFormRef}
             />
           </Togglable>
           {blogs.map(blog => (
