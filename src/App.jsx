@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 
 import blogService from "./services/blogs";
+import { showNotification } from "./reducers/notificationSlice";
 
 import Blog from "./components/Blog";
 import LoginForm from "./components/LoginForm";
@@ -11,7 +13,7 @@ import Togglable from "./components/Togglable";
 const App = () => {
   const [user, setUser] = useState(null);
   const [blogs, setBlogs] = useState([]);
-  const [notification, setNotification] = useState(null);
+  const dispatch = useDispatch();
 
   const newBlogFormRef = useRef();
 
@@ -33,17 +35,14 @@ const App = () => {
     window.localStorage.removeItem("user");
     setUser(null);
     blogService.setToken(null);
-    setNotification("success.Successfully logged out");
-    setTimeout(() => {
-      setNotification(null);
-    }, 5000);
+    dispatch(showNotification("success.Successfully logged out"));
   };
 
   return (
     <>
-      {notification && <Notification notification={notification} />}
+      <Notification />
       {user === null ? (
-        <LoginForm headerText="log in to application" setUser={setUser} setNotification={setNotification} />
+        <LoginForm headerText="log in to application" setUser={setUser} />
       ) : (
         <div>
           <h2>blogs</h2>
@@ -54,22 +53,10 @@ const App = () => {
             </button>
           </p>
           <Togglable buttonLabel="new blog" ref={newBlogFormRef}>
-            <NewBlogForm
-              blogs={blogs}
-              setBlogs={setBlogs}
-              setNotification={setNotification}
-              newBlogFormRef={newBlogFormRef}
-            />
+            <NewBlogForm blogs={blogs} setBlogs={setBlogs} newBlogFormRef={newBlogFormRef} />
           </Togglable>
           {blogs.map((blog) => (
-            <Blog
-              key={blog.id}
-              user={user}
-              blog={blog}
-              blogs={blogs}
-              setBlogs={setBlogs}
-              setNotification={setNotification}
-            />
+            <Blog key={blog.id} user={user} blog={blog} blogs={blogs} setBlogs={setBlogs} />
           ))}
         </div>
       )}

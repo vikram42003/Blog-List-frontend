@@ -1,7 +1,10 @@
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
-const Notification = ({ notification }) => {
-  const [notifType, notifMessage] = notification.split(".");
+const Notification = () => {
+  const text = useSelector((state) => state.notification);
+  if (!text) return null;
+
+  const [notifType, notifMessage] = text.split(".");
 
   const color = notifType === "success" ? "green" : "red";
 
@@ -16,10 +19,6 @@ const Notification = ({ notification }) => {
   };
 
   return <div style={notificationStyle}>{notifMessage}</div>;
-};
-
-Notification.propTypes = {
-  notification: PropTypes.string.isRequired,
 };
 
 export default Notification;

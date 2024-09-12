@@ -1,9 +1,13 @@
 import { useState } from "react";
-import blogsService from "../services/blogs";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 
-const Blog = ({ user, blog, blogs, setBlogs, setNotification }) => {
+import blogsService from "../services/blogs";
+import { showNotification } from "../reducers/notificationSlice";
+
+const Blog = ({ user, blog, blogs, setBlogs }) => {
   const [showDetails, setShowDetails] = useState(false);
+  const dispatch = useDispatch();
 
   const blogStyle = {
     paddingTop: 10,
@@ -26,10 +30,7 @@ const Blog = ({ user, blog, blogs, setBlogs, setNotification }) => {
       setBlogs(newBlogs);
     } catch (error) {
       console.log(error);
-      setNotification("failure.Error occured when liking");
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
+      dispatch(showNotification("failure.Error occured when liking"));
     }
   };
 
@@ -38,16 +39,10 @@ const Blog = ({ user, blog, blogs, setBlogs, setNotification }) => {
       try {
         await blogsService.deleteBlog(blog.id);
         setBlogs(blogs.filter((b) => b.id !== blog.id));
-        setNotification(`success.${blog.title} by ${blog.author} was deleted`);
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
+        dispatch(showNotification(`success.${blog.title} by ${blog.author} was deleted`));
       } catch (error) {
         console.log(error);
-        setNotification(`failure.Could not delete blog - ${error.response.data.error}`);
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
+        dispatch(showNotification(`failure.Could not delete blog - ${error.response.data.error}`));
       }
     }
   };
@@ -87,7 +82,6 @@ Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   blogs: PropTypes.arrayOf(PropTypes.object).isRequired,
   setBlogs: PropTypes.func.isRequired,
-  setNotification: PropTypes.func.isRequired,
 };
 
 export default Blog;

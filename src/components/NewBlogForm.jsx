@@ -1,11 +1,15 @@
 import { useState } from "react";
-import blogsService from "../services/blogs";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 
-const NewBlogForm = ({ blogs, setBlogs, setNotification, newBlogFormRef }) => {
+import blogsService from "../services/blogs";
+import { showNotification } from "../reducers/notificationSlice";
+
+const NewBlogForm = ({ blogs, setBlogs, newBlogFormRef }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
+  const dispatch = useDispatch();
 
   const handleAddNewBlog = async (event) => {
     event.preventDefault();
@@ -26,21 +30,14 @@ const NewBlogForm = ({ blogs, setBlogs, setNotification, newBlogFormRef }) => {
       setTitle("");
       setAuthor("");
       setUrl("");
-      setNotification(`success.${title} by ${author} was added`);
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
+      dispatch(showNotification(`success.${title} by ${author} was added`));
     } catch (error) {
       console.log("Could not add blog! \n", error);
       if (error.response) {
-        setNotification(`failure.Could not add blog - ${error.response.data.error}`);
+        dispatch(showNotification(`failure.Could not add blog - ${error.response.data.error}`));
       } else {
-        setNotification(`failure.Could not add blog`);
+        dispatch(showNotification(`failure.Could not add blog`));
       }
-
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
     }
   };
 
@@ -71,7 +68,6 @@ const NewBlogForm = ({ blogs, setBlogs, setNotification, newBlogFormRef }) => {
 NewBlogForm.propTypes = {
   blogs: PropTypes.arrayOf(PropTypes.object).isRequired,
   setBlogs: PropTypes.func.isRequired,
-  setNotification: PropTypes.func.isRequired,
   newBlogFormRef: PropTypes.any,
 };
 
