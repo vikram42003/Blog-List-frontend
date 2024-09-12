@@ -34,7 +34,7 @@ describe("<NewBlogForm />", () => {
         setBlogs={mockSetBlogs}
         setNotification={mockSetNotification}
         newBlogFormRef={mockNewNoteFormRef}
-      />
+      />,
     );
 
     const user = userEvent.setup();
@@ -50,10 +50,10 @@ describe("<NewBlogForm />", () => {
 
     expect(blogServiceSpy).toHaveBeenCalled(1);
     expect(blogServiceSpy.mock.calls[0][0]).toStrictEqual({
-      title: 'test test test',
+      title: "test test test",
       author: "Testing library's user event",
-      url: 'https://testing-library.com/docs/user-event/utility#type'
-    })
+      url: "https://testing-library.com/docs/user-event/utility#type",
+    });
 
     // Restore the original console methods
     console.log = originalConsoleLog;

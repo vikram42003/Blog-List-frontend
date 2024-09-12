@@ -30,7 +30,7 @@ describe("<Blog />", () => {
         blogs={mockBlogs}
         setBlogs={mockSetBlogs}
         setNotification={mockSetNotification}
-      />
+      />,
     );
     const textToRender = screen.getByText(/Testing blog - by ME/i);
     const toNotRender1 = screen.queryByText(/should not render/);
@@ -56,7 +56,7 @@ describe("<Blog />", () => {
         blogs={mockBlogs}
         setBlogs={mockSetBlogs}
         setNotification={mockSetNotification}
-      />
+      />,
     );
 
     const button = screen.getByText("view");
@@ -91,7 +91,7 @@ describe("<Blog />", () => {
         blogs={mockBlogs}
         setBlogs={mockSetBlogs}
         setNotification={mockSetNotification}
-      />
+      />,
     );
 
     const viewButton = screen.getByText("view");

@@ -7,7 +7,7 @@ const LoginForm = ({ headerText, setUser, setNotification }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async event => {
+  const handleLogin = async (event) => {
     event.preventDefault();
 
     try {
@@ -36,13 +36,13 @@ const LoginForm = ({ headerText, setUser, setNotification }) => {
 
       <label htmlFor="username">
         username &nbsp;
-        <input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} required />
+        <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
       </label>
       <br />
 
       <label htmlFor="password">
         password &nbsp;
-        <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} required />
+        <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
       </label>
       <br />
 

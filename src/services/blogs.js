@@ -3,16 +3,16 @@ const baseUrl = "/api/blogs";
 
 let token = null;
 
-const setToken = t => {
+const setToken = (t) => {
   token = t;
 };
 
 const getAll = () => {
   const request = axios.get(baseUrl);
-  return request.then(response => response.data);
+  return request.then((response) => response.data);
 };
 
-const addBlog = async blogData => {
+const addBlog = async (blogData) => {
   const config = token
     ? {
         headers: {
@@ -24,7 +24,7 @@ const addBlog = async blogData => {
   return response.data;
 };
 
-const updateLikes = async blogData => {
+const updateLikes = async (blogData) => {
   const config = token
     ? {
         headers: {
@@ -36,7 +36,7 @@ const updateLikes = async blogData => {
   return response.data;
 };
 
-const deleteBlog = async blogId => {
+const deleteBlog = async (blogId) => {
   const config = token
     ? {
         headers: {

@@ -21,7 +21,7 @@ const Blog = ({ user, blog, blogs, setBlogs, setNotification }) => {
     try {
       blog.likes = blog.likes + 1;
       await blogsService.updateLikes(blog);
-      const newBlogs = blogs.map(b => (b.id === blog.id ? blog : b));
+      const newBlogs = blogs.map((b) => (b.id === blog.id ? blog : b));
       newBlogs.sort((a, b) => b.likes - a.likes);
       setBlogs(newBlogs);
     } catch (error) {
@@ -37,7 +37,7 @@ const Blog = ({ user, blog, blogs, setBlogs, setNotification }) => {
     if (window.confirm(`remove blog ${blog.title} by ${blog.author} ?`)) {
       try {
         await blogsService.deleteBlog(blog.id);
-        setBlogs(blogs.filter(b => b.id !== blog.id));
+        setBlogs(blogs.filter((b) => b.id !== blog.id));
         setNotification(`success.${blog.title} by ${blog.author} was deleted`);
         setTimeout(() => {
           setNotification(null);

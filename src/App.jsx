@@ -16,7 +16,7 @@ const App = () => {
   const newBlogFormRef = useRef();
 
   useEffect(() => {
-    blogService.getAll().then(blogs => {
+    blogService.getAll().then((blogs) => {
       blogs.sort((a, b) => b.likes - a.likes);
       setBlogs(blogs);
     });
@@ -61,8 +61,15 @@ const App = () => {
               newBlogFormRef={newBlogFormRef}
             />
           </Togglable>
-          {blogs.map(blog => (
-            <Blog key={blog.id} user={user} blog={blog} blogs={blogs} setBlogs={setBlogs} setNotification={setNotification} />
+          {blogs.map((blog) => (
+            <Blog
+              key={blog.id}
+              user={user}
+              blog={blog}
+              blogs={blogs}
+              setBlogs={setBlogs}
+              setNotification={setNotification}
+            />
           ))}
         </div>
       )}

@@ -70,7 +70,7 @@ describe("Blog app", () => {
       });
 
       test("a blog can be deleted by its creator", async ({ page }) => {
-        page.on("dialog", dialog => dialog.accept());
+        page.on("dialog", (dialog) => dialog.accept());
 
         const blogLocator = page.getByText("test title - by playwright");
         await blogLocator.getByRole("button", { name: "view" }).click();
@@ -83,7 +83,7 @@ describe("Blog app", () => {
       });
 
       test("a blog cannot be deleted by someone whos not the creator", async ({ page, request }) => {
-        page.on("dialog", dialog => dialog.accept());
+        page.on("dialog", (dialog) => dialog.accept());
 
         await page.getByRole("button", { name: "log out" }).click();
         await request.post("/api/users", {
@@ -104,9 +104,9 @@ describe("Blog app", () => {
         await likeBlog(page, "another blog - by me", 3);
         await likeBlog(page, "test title - by playwright", 1);
 
-        await page.getByText("yet another blog - by who knows").getByRole("button", { name: "view" }).click()
-        await page.getByText("another blog - by me").getByRole("button", { name: "view" }).click()
-        await page.getByText("test title - by playwright").getByRole("button", { name: "view" }).click()
+        await page.getByText("yet another blog - by who knows").getByRole("button", { name: "view" }).click();
+        await page.getByText("another blog - by me").getByRole("button", { name: "view" }).click();
+        await page.getByText("test title - by playwright").getByRole("button", { name: "view" }).click();
 
         await expect(page.getByText("likes")).toHaveText([/likes 5/, /likes 3/, /likes 1/]);
       });
