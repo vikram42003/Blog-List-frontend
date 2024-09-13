@@ -1,48 +1,34 @@
-import { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import blogService from "./services/blogs";
-import { showNotification } from "./reducers/notificationSlice";
+import { logout, initializeUser } from "./reducers/userSlice";
+import { initializeBlogs } from "./reducers/blogsSlice";
 
-import Blog from "./components/Blog";
+import Blogs from "./components/Blogs";
 import LoginForm from "./components/LoginForm";
 import NewBlogForm from "./components/NewBlogForm";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 
 const App = () => {
-  const [user, setUser] = useState(null);
-  const [blogs, setBlogs] = useState([]);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
   const newBlogFormRef = useRef();
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => {
-      blogs.sort((a, b) => b.likes - a.likes);
-      setBlogs(blogs);
-    });
-
-    const storedUser = window.localStorage.getItem("user");
-    if (storedUser) {
-      const usr = JSON.parse(storedUser);
-      setUser(usr);
-      blogService.setToken(usr.token);
-    }
-  }, []);
+    dispatch(initializeBlogs());
+    dispatch(initializeUser());
+  }, [dispatch]);
 
   const handleLogout = () => {
-    window.localStorage.removeItem("user");
-    setUser(null);
-    blogService.setToken(null);
-    dispatch(showNotification("success.Successfully logged out"));
+    dispatch(logout());
   };
 
   return (
     <>
       <Notification />
       {user === null ? (
-        <LoginForm headerText="log in to application" setUser={setUser} />
+        <LoginForm headerText="log in to application" />
       ) : (
         <div>
           <h2>blogs</h2>
@@ -53,11 +39,9 @@ const App = () => {
             </button>
           </p>
           <Togglable buttonLabel="new blog" ref={newBlogFormRef}>
-            <NewBlogForm blogs={blogs} setBlogs={setBlogs} newBlogFormRef={newBlogFormRef} />
+            <NewBlogForm newBlogFormRef={newBlogFormRef} />
           </Togglable>
-          {blogs.map((blog) => (
-            <Blog key={blog.id} user={user} blog={blog} blogs={blogs} setBlogs={setBlogs} />
-          ))}
+          <Blogs />
         </div>
       )}
     </>

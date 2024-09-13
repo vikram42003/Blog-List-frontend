@@ -25,6 +25,7 @@ const addBlog = async (blogData) => {
 };
 
 const updateLikes = async (blogData) => {
+  const likedBlog = { ...blogData, likes: blogData.likes + 1 };
   const config = token
     ? {
         headers: {
@@ -32,7 +33,7 @@ const updateLikes = async (blogData) => {
         },
       }
     : null;
-  const response = await axios.put(`${baseUrl}/${blogData.id}`, blogData, config || {});
+  const response = await axios.put(`${baseUrl}/${likedBlog.id}`, likedBlog, config || {});
   return response.data;
 };
 
