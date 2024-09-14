@@ -1,6 +1,11 @@
-import PropTypes from "prop-types";
+import { useContext } from "react";
+import { Context } from "../ContextProvider";
 
-const Notification = ({ notification }) => {
+const Notification = () => {
+  const { notification } = useContext(Context);
+
+  if (!notification) return null;
+
   const [notifType, notifMessage] = notification.split(".");
 
   const color = notifType === "success" ? "green" : "red";
@@ -16,10 +21,6 @@ const Notification = ({ notification }) => {
   };
 
   return <div style={notificationStyle}>{notifMessage}</div>;
-};
-
-Notification.propTypes = {
-  notification: PropTypes.string.isRequired,
 };
 
 export default Notification;

@@ -34,7 +34,7 @@ describe("<NewBlogForm />", () => {
         setBlogs={mockSetBlogs}
         setNotification={mockSetNotification}
         newBlogFormRef={mockNewNoteFormRef}
-      />,
+      />
     );
 
     const user = userEvent.setup();

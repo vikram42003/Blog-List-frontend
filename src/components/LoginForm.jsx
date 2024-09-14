@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import PropTypes from "prop-types";
+
+import { Context } from "../ContextProvider";
 import loginService from "../services/login";
 import blogsService from "../services/blogs";
 
-const LoginForm = ({ headerText, setUser, setNotification }) => {
+const LoginForm = ({ headerText, setUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { showNotification } = useContext(Context);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -17,16 +20,10 @@ const LoginForm = ({ headerText, setUser, setNotification }) => {
       blogsService.setToken(user.token);
       setUsername("");
       setPassword("");
-      setNotification(`success.Logged in as ${user.name}`);
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
+      showNotification(`success.Logged in as ${user.name}`);
     } catch (error) {
       console.log("Login Failed! - \n", error.response.data);
-      setNotification(`failure.Could not log in - ${error.response.data.error}`);
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
+      showNotification(`failure.Could not log in - ${error.response.data.error}`);
     }
   };
 
@@ -54,7 +51,6 @@ const LoginForm = ({ headerText, setUser, setNotification }) => {
 LoginForm.propTypes = {
   headerText: PropTypes.string.isRequired,
   setUser: PropTypes.func.isRequired,
-  setNotification: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

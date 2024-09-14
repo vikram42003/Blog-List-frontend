@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+
+import { Context } from "../ContextProvider";
 import blogsService from "../services/blogs";
 import PropTypes from "prop-types";
 
-const NewBlogForm = ({ blogs, setBlogs, setNotification, newBlogFormRef }) => {
+const NewBlogForm = ({ blogs, setBlogs, newBlogFormRef }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
+  const { showNotification } = useContext(Context);
 
   const handleAddNewBlog = async (event) => {
     event.preventDefault();
@@ -26,21 +29,14 @@ const NewBlogForm = ({ blogs, setBlogs, setNotification, newBlogFormRef }) => {
       setTitle("");
       setAuthor("");
       setUrl("");
-      setNotification(`success.${title} by ${author} was added`);
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
+      showNotification(`success.${title} by ${author} was added`);
     } catch (error) {
       console.log("Could not add blog! \n", error);
       if (error.response) {
-        setNotification(`failure.Could not add blog - ${error.response.data.error}`);
+        showNotification(`failure.Could not add blog - ${error.response.data.error}`);
       } else {
-        setNotification(`failure.Could not add blog`);
+        showNotification(`failure.Could not add blog`);
       }
-
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
     }
   };
 
@@ -71,7 +67,6 @@ const NewBlogForm = ({ blogs, setBlogs, setNotification, newBlogFormRef }) => {
 NewBlogForm.propTypes = {
   blogs: PropTypes.arrayOf(PropTypes.object).isRequired,
   setBlogs: PropTypes.func.isRequired,
-  setNotification: PropTypes.func.isRequired,
   newBlogFormRef: PropTypes.any,
 };
 

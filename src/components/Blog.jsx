@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+
+import { Context } from "../ContextProvider";
 import blogsService from "../services/blogs";
 import PropTypes from "prop-types";
 
-const Blog = ({ user, blog, blogs, setBlogs, setNotification }) => {
+const Blog = ({ user, blog, blogs, setBlogs }) => {
   const [showDetails, setShowDetails] = useState(false);
+  const { showNotification } = useContext(Context);
 
   const blogStyle = {
     paddingTop: 10,
@@ -26,10 +29,7 @@ const Blog = ({ user, blog, blogs, setBlogs, setNotification }) => {
       setBlogs(newBlogs);
     } catch (error) {
       console.log(error);
-      setNotification("failure.Error occured when liking");
-      setTimeout(() => {
-        setNotification(null);
-      }, 5000);
+      showNotification("failure.Error occured when liking");
     }
   };
 
@@ -38,16 +38,10 @@ const Blog = ({ user, blog, blogs, setBlogs, setNotification }) => {
       try {
         await blogsService.deleteBlog(blog.id);
         setBlogs(blogs.filter((b) => b.id !== blog.id));
-        setNotification(`success.${blog.title} by ${blog.author} was deleted`);
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
+        showNotification(`success.${blog.title} by ${blog.author} was deleted`);
       } catch (error) {
         console.log(error);
-        setNotification(`failure.Could not delete blog - ${error.response.data.error}`);
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
+        showNotification(`failure.Could not delete blog - ${error.response.data.error}`);
       }
     }
   };
@@ -87,7 +81,6 @@ Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   blogs: PropTypes.arrayOf(PropTypes.object).isRequired,
   setBlogs: PropTypes.func.isRequired,
-  setNotification: PropTypes.func.isRequired,
 };
 
 export default Blog;
