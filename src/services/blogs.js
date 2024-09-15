@@ -25,6 +25,7 @@ const addBlog = async (blogData) => {
 };
 
 const updateLikes = async (blogData) => {
+  blogData.likes = blogData.likes + 1;
   const config = token
     ? {
         headers: {
@@ -36,7 +37,8 @@ const updateLikes = async (blogData) => {
   return response.data;
 };
 
-const deleteBlog = async (blogId) => {
+const deleteBlog = async (blog) => {
+  const blogId = blog.id;
   const config = token
     ? {
         headers: {

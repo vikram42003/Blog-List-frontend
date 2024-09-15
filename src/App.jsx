@@ -1,48 +1,33 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useContext } from "react";
 
 import { Context } from "./ContextProvider";
-import blogService from "./services/blogs";
 
-import Blog from "./components/Blog";
 import LoginForm from "./components/LoginForm";
 import NewBlogForm from "./components/NewBlogForm";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
+import Blogs from "./components/Blogs";
 
 const App = () => {
-  const [user, setUser] = useState(null);
-  const [blogs, setBlogs] = useState([]);
-  const { showNotification } = useContext(Context);
+  const { user, autoLogin, logout } = useContext(Context);
 
   const newBlogFormRef = useRef();
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => {
-      blogs.sort((a, b) => b.likes - a.likes);
-      setBlogs(blogs);
-    });
-
-    const storedUser = window.localStorage.getItem("user");
-    if (storedUser) {
-      const usr = JSON.parse(storedUser);
-      setUser(usr);
-      blogService.setToken(usr.token);
-    }
+    autoLogin();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLogout = () => {
-    window.localStorage.removeItem("user");
-    setUser(null);
-    blogService.setToken(null);
-    showNotification("success.Successfully logged out");
+    logout();
   };
 
   return (
     <>
       <Notification />
       {user === null ? (
-        <LoginForm headerText="log in to application" setUser={setUser} />
+        <LoginForm />
       ) : (
         <div>
           <h2>blogs</h2>
@@ -53,11 +38,9 @@ const App = () => {
             </button>
           </p>
           <Togglable buttonLabel="new blog" ref={newBlogFormRef}>
-            <NewBlogForm blogs={blogs} setBlogs={setBlogs} newBlogFormRef={newBlogFormRef} />
+            <NewBlogForm newBlogFormRef={newBlogFormRef} />
           </Togglable>
-          {blogs.map((blog) => (
-            <Blog key={blog.id} user={user} blog={blog} blogs={blogs} setBlogs={setBlogs} />
-          ))}
+          <Blogs />
         </div>
       )}
     </>
