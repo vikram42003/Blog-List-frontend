@@ -6,6 +6,7 @@ import { Context } from "./ContextProvider";
 
 import HomePage from "./views/HomePage";
 import LoginPage from "./views/LoginPage";
+import UserBlogsPage from "./views/UserBlogsPage";
 
 import Notification from "./components/Notification";
 import UsersPage from "./views/UsersPage";
@@ -37,18 +38,19 @@ const App = () => {
       <div>
         <h2>blogs</h2>
         {user && (
-          <p>
-            {user.name} logged in &nbsp;
+          <>
+            <p>{user.name} logged in &nbsp;</p>
             <button type="button" onClick={handleLogout}>
               log out
             </button>
-          </p>
+          </>
         )}
       </div>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/users" element={<UsersPage />} />
+        <Route path="/users/:id" element={<UserBlogsPage />} />
       </Routes>
     </>
   );
