@@ -1,15 +1,18 @@
 import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Context } from "../ContextProvider";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const { login } = useContext(Context);
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    login({ username, password });
+    await login({ username, password });
+    navigate("/");
     setUsername("");
     setPassword("");
   };

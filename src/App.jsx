@@ -1,48 +1,55 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useContext } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 import { Context } from "./ContextProvider";
 
-import LoginForm from "./components/LoginForm";
-import NewBlogForm from "./components/NewBlogForm";
+import HomePage from "./views/HomePage";
+import LoginPage from "./views/LoginPage";
+
 import Notification from "./components/Notification";
-import Togglable from "./components/Togglable";
-import Blogs from "./components/Blogs";
+import UsersPage from "./views/UsersPage";
 
 const App = () => {
   const { user, autoLogin, logout } = useContext(Context);
-
-  const newBlogFormRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     autoLogin();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const isLoggedIn = user || localStorage.getItem("user");
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
 
   const handleLogout = () => {
     logout();
+    navigate("/login");
   };
 
   return (
     <>
       <Notification />
-      {user === null ? (
-        <LoginForm />
-      ) : (
-        <div>
-          <h2>blogs</h2>
+      <div>
+        <h2>blogs</h2>
+        {user && (
           <p>
             {user.name} logged in &nbsp;
             <button type="button" onClick={handleLogout}>
               log out
             </button>
           </p>
-          <Togglable buttonLabel="new blog" ref={newBlogFormRef}>
-            <NewBlogForm newBlogFormRef={newBlogFormRef} />
-          </Togglable>
-          <Blogs />
-        </div>
-      )}
+        )}
+      </div>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/users" element={<UsersPage />} />
+      </Routes>
     </>
   );
 };
