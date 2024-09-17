@@ -50,4 +50,12 @@ const deleteBlog = async (blog) => {
   return response.data;
 };
 
-export default { setToken, getAll, addBlog, updateLikes, deleteBlog };
+const blogsService = {
+  setToken,
+  getAll,
+  addBlog,
+  updateLikes,
+  deleteBlog,
+};
+
+export default blogsService;

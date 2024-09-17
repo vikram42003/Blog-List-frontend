@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 import blogsService from "../services/blogs";
-
-import Blog from "./Blog";
 
 const Blogs = () => {
   const { data, isPending, error } = useQuery({
@@ -23,10 +22,20 @@ const Blogs = () => {
 
   const blogs = data;
 
+  const blogLinkStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: "solid",
+    borderWidth: 1,
+    marginBottom: 5,
+  };
+
   return (
     <div>
       {blogs.map((b) => (
-        <Blog key={b.id} blog={b} />
+        <div key={b.id} style={blogLinkStyle}>
+          <Link to={`/blogs/${b.id}`}>{`${b.title} - by ${b.author}`}</Link>
+        </div>
       ))}
     </div>
   );

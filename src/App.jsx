@@ -7,6 +7,7 @@ import { Context } from "./ContextProvider";
 import HomePage from "./views/HomePage";
 import LoginPage from "./views/LoginPage";
 import UserBlogsPage from "./views/UserBlogsPage";
+import BlogPage from "./views/BlogPage";
 
 import Notification from "./components/Notification";
 import UsersPage from "./views/UsersPage";
@@ -51,6 +52,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/users" element={<UsersPage />} />
         <Route path="/users/:id" element={<UserBlogsPage />} />
+        <Route path="/blogs/:id" element={<BlogPage />} />
       </Routes>
     </>
   );
