@@ -11,9 +11,10 @@ import BlogPage from "./views/BlogPage";
 
 import Notification from "./components/Notification";
 import UsersPage from "./views/UsersPage";
+import NavigationBar from "./components/NavigationBar";
 
 const App = () => {
-  const { user, autoLogin, logout } = useContext(Context);
+  const { user, autoLogin } = useContext(Context);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,25 +29,11 @@ const App = () => {
     }
   }, [user, navigate]);
 
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
-
   return (
     <>
       <Notification />
-      <div>
-        <h2>blogs</h2>
-        {user && (
-          <>
-            <p>{user.name} logged in &nbsp;</p>
-            <button type="button" onClick={handleLogout}>
-              log out
-            </button>
-          </>
-        )}
-      </div>
+      <NavigationBar />
+      <h2>blogs</h2>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
