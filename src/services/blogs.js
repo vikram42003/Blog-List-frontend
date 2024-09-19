@@ -7,9 +7,9 @@ const setToken = (t) => {
   token = t;
 };
 
-const getAll = () => {
-  const request = axios.get(baseUrl);
-  return request.then((response) => response.data);
+const getAll = async () => {
+  const response = await axios.get(baseUrl);
+  return response.data;
 };
 
 const addBlog = async (blogData) => {
@@ -21,6 +21,11 @@ const addBlog = async (blogData) => {
       }
     : null;
   const response = await axios.post(baseUrl, blogData, config || {});
+  return response.data;
+};
+
+const addComment = async (comment, blogId) => {
+  const response = await axios.post(`${baseUrl}/${blogId}/comments`, { comment });
   return response.data;
 };
 
@@ -54,6 +59,7 @@ const blogsService = {
   setToken,
   getAll,
   addBlog,
+  addComment,
   updateLikes,
   deleteBlog,
 };

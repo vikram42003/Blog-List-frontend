@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import { Context } from "../ContextProvider";
 import blogsService from "../services/blogs";
-import CommentSection from "./CommentSection"
+import CommentSection from "./CommentSection";
 
 const Blog = ({ blog }) => {
   const queryClient = useQueryClient();
@@ -91,7 +91,7 @@ const Blog = ({ blog }) => {
         )}
       </p>
 
-      <CommentSection commentsArray={blog.comments} />
+      <CommentSection commentsArray={blog.comments} blogId={blog.id} />
     </div>
   );
 };
