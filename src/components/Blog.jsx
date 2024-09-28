@@ -84,7 +84,7 @@ const Blog = ({ blog }) => {
         {`added by ${blog.author}`}
         <br />
 
-        {blog.user && blog.user.username === user.username && (
+        {blog.user && blog?.user?.username === user?.username && (
           <button type="button" onClick={handleDeleteBlog}>
             remove
           </button>
