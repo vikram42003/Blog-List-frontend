@@ -8,23 +8,23 @@
   padding: 0 5% 5%;
 }
 
-.active {
-  @apply text-electric-purple;
-}
-
 a {
   text-decoration: underline;
 }
 a:hover {
-  color: red;
+  @apply text-electric-purple
+}
+
+.active {
+  @apply text-electric-purple no-underline;
+}
+
+.button {
+  @apply hover:bg-electric-purple-dark rounded-full bg-electric-purple px-3 py-1 font-bold text-white no-underline hover:text-white;
 }
 
 @layer components {
-  .button {
-    @apply hover:bg-electric-purple-dark rounded-full bg-electric-purple px-3 py-1 font-bold text-white no-underline hover:text-white;
-  }
-
   .input {
-    @apply w-full;
+    @apply w-full rounded-md px-2;
   }
 }

@@ -18,22 +18,20 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <h2>log in to application</h2>
+    <form className="flex flex-col items-center justify-around w-[350px] bg-electric-purple-light rounded-md p-8 m-8 h-[300px] mx-auto border-2 border-electric-purple-light" onSubmit={handleLogin}>
+      <h2 className="font-fredoka text-2xl" >Log in to application</h2>
 
       <label htmlFor="username">
         username &nbsp;
-        <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
       </label>
-      <br />
+        <input className="input" type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
 
       <label htmlFor="password">
         password &nbsp;
-        <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
       </label>
-      <br />
+        <input className="input" type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
 
-      <button type="submit">Login</button>
+      <button className="button w-20 mx-auto" type="submit">Login</button>
     </form>
   );
 };

@@ -46,7 +46,7 @@ const NewBlogForm = ({ newBlogFormRef }) => {
     <>
       {newBlogMutation.isPending && <div>Adding Blog</div>}
       <form
-        className="mx-4 my-8 flex flex-col gap-6 rounded-md bg-red-50 p-4 ring-1 ring-red-500"
+        className="mx-4 my-8 flex flex-col lg:gap-6 gap-4 rounded-md bg-red-50 p-4 border-2 border-red-500"
         onSubmit={handleAddNewBlog}
       >
         <h2>Create a new blog</h2>
