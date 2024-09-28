@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useContext } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import { Context } from "./ContextProvider";
 
@@ -14,26 +14,18 @@ import UsersPage from "./views/UsersPage";
 import NavigationBar from "./components/NavigationBar";
 
 const App = () => {
-  const { user, autoLogin } = useContext(Context);
-  const navigate = useNavigate();
+  const { autoLogin } = useContext(Context);
 
   useEffect(() => {
     autoLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    const isLoggedIn = user || localStorage.getItem("user");
-    if (!isLoggedIn) {
-      navigate("/login");
-    }
-  }, [user, navigate]);
-
   return (
     <>
       <Notification />
       <NavigationBar />
-      <h2>blogs</h2>
+      <h2 className="">blogs</h2>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />

@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+  padding: 0 5%;
+}
+
+.active {
+  @apply text-electric-purple;
+}
+
+a:hover, button:hover {
+  color: red;
+}
+
+@layer components {
+  .linkHover {
+    @apply hover:text-red-500;
+  }
+}
