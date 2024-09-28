@@ -18,13 +18,13 @@ const Togglable = forwardRef(({ buttonLabel, children }, ref) => {
   };
 
   return (
-    <div>
+    <div className="py-4">
       <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{buttonLabel}</button>
+        <button className="button" onClick={toggleVisibility}>{buttonLabel}</button>
       </div>
       <div style={showWhenVisible}>
         {children}
-        <button onClick={toggleVisibility}>cancel</button>
+        <button className="button" onClick={toggleVisibility}>cancel</button>
       </div>
     </div>
   );

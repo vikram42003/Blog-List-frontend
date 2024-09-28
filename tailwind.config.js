@@ -7,7 +7,10 @@ export default {
         fredoka: ["Fredoka", "sans-serif"],
       },
       colors: {
-        "electric-purple": "hsl(285, 100%, 50%)",
+        "electric-purple": {
+          DEFAULT: "hsl(285, 100%, 70%)",
+          dark: "hsl(285, 100%, 50%)",
+        },
       },
     },
   },

@@ -25,12 +25,12 @@ const NavigationBar = () => {
             <div>
               logged in as <span className="text-electric-purple">{user.name} </span>
             </div>
-            <button type="button" onClick={handleLogout}>
+            <button className="button" type="button" onClick={handleLogout}>
               log out
             </button>
           </>
         ) : (
-          <NavLink to={"/login"}>Log in</NavLink>
+          <NavLink className="button" to={"/login"}>Log in</NavLink>
         )}
       </nav>
     </div>

@@ -45,25 +45,46 @@ const NewBlogForm = ({ newBlogFormRef }) => {
   return (
     <>
       {newBlogMutation.isPending && <div>Adding Blog</div>}
-      <form onSubmit={handleAddNewBlog}>
-        <h2>Create new</h2>
+      <form
+        className="mx-4 my-8 flex flex-col gap-6 rounded-md bg-red-50 p-4 ring-1 ring-red-500"
+        onSubmit={handleAddNewBlog}
+      >
+        <h2>Create a new blog</h2>
         <label>
           title:
-          <input type="text" name="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+          <input
+            className="input"
+            type="text"
+            name="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
         </label>
-        <br />
         <label>
           author:
-          <input type="text" name="author" value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input
+            className="input"
+            type="text"
+            name="author"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+          />
         </label>
-        <br />
         <label>
           url:
-          <input type="text" name="url" value={url} onChange={(e) => setUrl(e.target.value)} required />
+          <input
+            className="input"
+            type="text"
+            name="url"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            required
+          />
         </label>
-        <br />
-        <button type="submit">submit</button>
-        <br />
+        <button className="button mx-auto w-20 bg-red-400 hover:bg-red-600" type="submit">
+          submit
+        </button>
       </form>
     </>
   );

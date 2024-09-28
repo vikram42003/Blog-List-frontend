@@ -11,6 +11,7 @@ const HomePage = () => {
 
   return (
     <>
+      <h2 className="pt-2 text-xl font-bold lg:pb-2 lg:pt-4">All blogs</h2>
       {user && (
         <Togglable buttonLabel="new blog" ref={newBlogFormRef}>
           <NewBlogForm newBlogFormRef={newBlogFormRef} />

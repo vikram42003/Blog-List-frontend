@@ -25,7 +25,6 @@ const App = () => {
     <>
       <Notification />
       <NavigationBar />
-      <h2 className="">blogs</h2>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />

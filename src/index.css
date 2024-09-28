@@ -12,12 +12,19 @@
   @apply text-electric-purple;
 }
 
-a:hover, button:hover {
+a {
+  text-decoration: underline;
+}
+a:hover {
   color: red;
 }
 
 @layer components {
-  .linkHover {
-    @apply hover:text-red-500;
+  .button {
+    @apply hover:bg-electric-purple-dark rounded-full bg-electric-purple px-3 py-1 text-white no-underline hover:text-white;
+  }
+
+  .input {
+    @apply w-full;
   }
 }
