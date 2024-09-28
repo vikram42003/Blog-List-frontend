@@ -10,6 +10,7 @@ export default {
         "electric-purple": {
           DEFAULT: "hsl(285, 100%, 70%)",
           dark: "hsl(285, 100%, 50%)",
+          light: "hsl(285, 100%, 85%)"
         },
       },
     },

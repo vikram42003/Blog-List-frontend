@@ -22,19 +22,11 @@ const Blogs = () => {
 
   const blogs = data;
 
-  const blogLinkStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5,
-  };
-
   return (
     <div>
       {blogs.map((b) => (
-        <div key={b.id} style={blogLinkStyle}>
-          <Link to={`/blogs/${b.id}`}>{`${b.title} - by ${b.author}`}</Link>
+        <div key={b.id} className="font-fredoka border-2 my-3 rounded-md border-electric-purple-light hover:bg-red-50">
+          <Link className="flex h-full w-full p-4" to={`/blogs/${b.id}`}>{`${b.title} - by ${b.author}`}</Link>
         </div>
       ))}
     </div>
