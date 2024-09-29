@@ -25,8 +25,11 @@ const Blogs = () => {
   return (
     <div>
       {blogs.map((b) => (
-        <div key={b.id} className="font-fredoka border-2 my-3 rounded-md border-electric-purple-light hover:bg-red-50">
-          <Link className="flex h-full w-full p-4" to={`/blogs/${b.id}`}>{`${b.title} - by ${b.author}`}</Link>
+        <div key={b.id} className="my-3 rounded-md border-2 border-electric-purple-light font-fredoka hover:bg-red-50">
+          <Link className="flex h-full w-full p-4" to={`/blogs/${b.id}`}>
+            {`${b.title} - by ${b.author}`}
+            <span className="ml-auto no-underline">❤️ {b.likes}</span>
+          </Link>
         </div>
       ))}
     </div>

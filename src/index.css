@@ -6,13 +6,12 @@
 
 #root {
   padding: 0 5% 5%;
-}
-
-a {
-  text-decoration: underline;
+  background: url("../public/bgImage.jpg") no-repeat;
+  background-size: cover;
+  min-height: 100vh;
 }
 a:hover {
-  @apply text-electric-purple
+  @apply text-electric-purple;
 }
 
 .active {
@@ -20,7 +19,7 @@ a:hover {
 }
 
 .button {
-  @apply hover:bg-electric-purple-dark rounded-full bg-electric-purple px-3 py-1 font-bold text-white no-underline hover:text-white;
+  @apply rounded-full bg-electric-purple px-3 py-1 font-bold text-white no-underline hover:bg-electric-purple-dark hover:text-white;
 }
 
 @layer components {

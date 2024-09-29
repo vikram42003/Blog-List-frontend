@@ -23,7 +23,7 @@ const NavigationBar = () => {
         {user ? (
           <>
             <div>
-              logged in as <span className="text-electric-purple">{user.name} </span>
+              logged in as <span className="text-electric-purple-dark">{user.name} </span>
             </div>
             <button className="button" type="button" onClick={handleLogout}>
               log out
