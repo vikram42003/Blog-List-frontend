@@ -40,7 +40,7 @@ const CommentSection = ({ commentsArray, blogId }) => {
       <h3 className="text-center font-fredoka text-2xl font-medium text-red-500">comments</h3>
 
       <div className="flex items-center py-4">
-        <textarea className="mr-2 flex-grow rounded-md" value={comment} onChange={(e) => setComment(e.target.value)}>
+        <textarea className="p-2 mr-2 flex-grow rounded-md" value={comment} onChange={(e) => setComment(e.target.value)}>
           {" "}
         </textarea>
         <button

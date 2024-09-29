@@ -19,7 +19,7 @@ const LoginForm = () => {
 
   return (
     <form className="flex flex-col items-center justify-around w-[350px] bg-electric-purple-light rounded-md p-8 m-8 h-[300px] mx-auto border-2 border-electric-purple-light" onSubmit={handleLogin}>
-      <h2 className="font-fredoka text-2xl" >Log in to application</h2>
+      <h2 className="font-fredoka text-2xl" >Log in</h2>
 
       <label htmlFor="username">
         username &nbsp;
