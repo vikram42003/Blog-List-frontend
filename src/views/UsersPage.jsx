@@ -32,7 +32,7 @@ const UsersPage = () => {
             return (
               <tr className="odd:bg-red-100 even:bg-red-200" key={user.username}>
                 <td className="p-3">
-                  <Link to={user.id}>{user.username}</Link> &nbsp;&nbsp;&nbsp;
+                  <Link className="underline" to={user.id}>{user.username}</Link> &nbsp;&nbsp;&nbsp;
                 </td>
                 <td className="p-3">{user.blogs.length}</td>
               </tr>

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import usersService from "../services/users";
 
@@ -21,17 +21,19 @@ const UserBlogsPage = () => {
   const user = data.find((d) => d.id === id);
 
   return (
-    <>
-      <h2>{user.name}</h2>
-      <p>
-        <b>added blogs</b>
-      </p>
-      <ul>
-        {user.blogs.map((blog) => (
-          <li key={blog.id}>{blog.title}</li>
-        ))}
-      </ul>
-    </>
+    <div className="max-w-[800px] mx-auto">
+      <h2 className="pb-4 text-2xl font-bold text-electric-purple-dark">{user.name}</h2>
+      <div className="w-full bg-red-200 rounded-md">
+        <p className="text-lg font-bold bg-red-300 py-2 rounded-t-md px-3">Added blogs</p>
+        <ul className="list-inside list-disc px-3 py-2">
+          {user.blogs.map((blog) => (
+            <li key={blog.id}>
+              <Link className="underline" to={`/blogs/${blog.id}`}>{blog.title}</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 };
 
