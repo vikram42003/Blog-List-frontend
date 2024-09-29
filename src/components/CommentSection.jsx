@@ -40,11 +40,15 @@ const CommentSection = ({ commentsArray, blogId }) => {
       <h3 className="text-center font-fredoka text-2xl font-medium text-red-500">comments</h3>
 
       <div className="flex items-center py-4">
-        <textarea className="p-2 mr-2 flex-grow rounded-md" value={comment} onChange={(e) => setComment(e.target.value)}>
+        <textarea
+          className="mr-2 flex-grow rounded-md p-2"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        >
           {" "}
         </textarea>
         <button
-          className="rounded-full bg-red-500 px-3 py-1 font-bold text-white no-underline hover:bg-red-700 hover:text-white"
+          className="max-sm:text-sm rounded-full bg-red-500 px-3 py-1 font-bold text-white no-underline hover:bg-red-700 hover:text-white"
           type="button"
           onClick={handleAddComment}
         >
@@ -57,7 +61,7 @@ const CommentSection = ({ commentsArray, blogId }) => {
       ) : (
         <ul className="list-inside list-disc px-2">
           {commentsArray.map((comment) => (
-            <li className="my-2 rounded-md py-2 px-4 odd:bg-red-300 even:bg-red-200" key={comment}>
+            <li className="my-2 break-words rounded-md px-4 py-2 odd:bg-red-300 even:bg-red-200" key={comment}>
               {comment}
             </li>
           ))}

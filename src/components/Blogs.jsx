@@ -23,7 +23,7 @@ const Blogs = () => {
   const blogs = data;
 
   return (
-    <div>
+    <div className="max-sm:pb-6">
       {blogs.map((b) => (
         <div key={b.id} className="my-3 rounded-md border-2 border-electric-purple-light font-fredoka hover:bg-red-50">
           <Link className="flex h-full w-full p-4" to={`/blogs/${b.id}`}>
