@@ -19,29 +19,28 @@ const UsersPage = () => {
   }
 
   return (
-    <>
-      <h2>Users</h2>
-      <table>
-        <thead>
+    <div className="mx-auto max-w-[800px]">
+      <table className="w-full table-auto rounded-md bg-electric-purple-light text-left">
+        <thead className="text-xl text-electric-purple-dark">
           <tr>
-            <th></th>
-            <th>blogs created</th>
+            <th className="p-3">Users</th>
+            <th className="p-3">blogs created</th>
           </tr>
         </thead>
         <tbody>
           {users.map((user) => {
             return (
-              <tr key={user.username}>
-                <td>
+              <tr className="odd:bg-red-100 even:bg-red-200" key={user.username}>
+                <td className="p-3">
                   <Link to={user.id}>{user.username}</Link> &nbsp;&nbsp;&nbsp;
                 </td>
-                <td>{user.blogs.length}</td>
+                <td className="p-3">{user.blogs.length}</td>
               </tr>
             );
           })}
         </tbody>
       </table>
-    </>
+    </div>
   );
 };
 

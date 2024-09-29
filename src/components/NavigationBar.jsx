@@ -13,7 +13,7 @@ const NavigationBar = () => {
   };
 
   return (
-    <div className="flex items-center justify-between gap-5 py-5">
+    <div className="flex items-center justify-between gap-5 py-6 pb-12">
       <div className="font-fredoka text-3xl">Blog App</div>
       <nav className="flex items-center gap-4 font-medium lg:gap-8 lg:text-lg">
         <NavLink to={"/"}>
