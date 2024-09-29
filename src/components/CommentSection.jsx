@@ -36,22 +36,30 @@ const CommentSection = ({ commentsArray, blogId }) => {
   const handleAddComment = () => addCommentMutation.mutate({ commentToAdd: comment });
 
   return (
-    <div>
-      <h3>comments</h3>
+    <div className="rounded-md border-2 border-red-300 bg-red-100 p-3">
+      <h3 className="text-center font-fredoka text-2xl font-medium text-red-500">comments</h3>
 
-      <div>
-        <input type="text" value={comment} onChange={(e) => setComment(e.target.value)} />
-        <button type="button" onClick={handleAddComment}>
+      <div className="flex items-center py-4">
+        <textarea className="mr-2 flex-grow rounded-md" value={comment} onChange={(e) => setComment(e.target.value)}>
+          {" "}
+        </textarea>
+        <button
+          className="rounded-full bg-red-500 px-3 py-1 font-bold text-white no-underline hover:bg-red-700 hover:text-white"
+          type="button"
+          onClick={handleAddComment}
+        >
           add comment
         </button>
       </div>
 
       {!commentsArray || commentsArray.length == 0 ? (
-        <p>no comments yet</p>
+        <p className="text-center text-lg font-medium text-red-500">no comments yet</p>
       ) : (
-        <ul>
+        <ul className="list-inside list-disc px-2">
           {commentsArray.map((comment) => (
-            <li key={comment}>{comment}</li>
+            <li className="my-2 rounded-md py-2 px-4 odd:bg-red-300 even:bg-red-200" key={comment}>
+              {comment}
+            </li>
           ))}
         </ul>
       )}

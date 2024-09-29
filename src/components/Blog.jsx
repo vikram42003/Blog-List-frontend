@@ -68,30 +68,44 @@ const Blog = ({ blog }) => {
   if (deleteBlogMutation.isPending) return <div>Deleting blog...</div>;
 
   return (
-    <div>
-      <h2>{blog.title}</h2>
+    <div className="mx-auto max-w-[1000px] px-6">
+      <h2 className="text-center text-3xl font-bold text-electric-purple-dark">{blog.title}</h2>
 
-      <p>
-        <a href={blog.url}>{blog.url}</a>
-        <br />
-
-        {`${blog.likes} likes`}
-        <button type="button" onClick={handleUpdateLikes}>
-          like
-        </button>
-        <br />
-
-        {`added by ${blog.author}`}
-        <br />
-
-        {blog.user && blog?.user?.username === user?.username && (
-          <button type="button" onClick={handleDeleteBlog}>
-            remove
-          </button>
-        )}
+      <p className="text-center text-lg font-medium">
+        by <span className="text-electric-purple">{blog.author}</span>
       </p>
 
-      <CommentSection commentsArray={blog.comments} blogId={blog.id} />
+      <div className="mx-auto flex w-full items-center justify-between py-6 font-medium">
+        <p>
+          url -{"  "}
+          <span className="text-electric-purple underline">
+            <a href={blog.url}>{blog.url}</a>
+          </span>
+        </p>
+
+        <p>
+          {blog.user && blog?.user?.username === user?.username && (
+            <button className="button" type="button" onClick={handleDeleteBlog}>
+              remove
+            </button>
+          )}
+        </p>
+
+        <p>
+          {`❤️ ${blog.likes} `}
+          <button
+            className="rounded-full bg-red-500 px-3 py-1 font-bold text-white no-underline hover:bg-red-700 hover:text-white"
+            type="button"
+            onClick={handleUpdateLikes}
+          >
+            like
+          </button>
+        </p>
+      </div>
+
+      <div className="pt-32 max-lg:pb-6">
+        <CommentSection commentsArray={blog.comments} blogId={blog.id} />
+      </div>
     </div>
   );
 };
