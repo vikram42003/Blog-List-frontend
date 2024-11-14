@@ -6,7 +6,7 @@
 
 #root {
   padding: 0 5% 5%;
-  background: url("../public/bgImage.jpg") no-repeat;
+  background: url("./bgImage.jpg") no-repeat;
   background-size: cover;
   min-height: 100vh;
 }

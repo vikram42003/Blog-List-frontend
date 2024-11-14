@@ -1,114 +1,81 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+
+import { Context } from "../../src/ContextProvider";
 
 import Blog from "../../src/components/Blog";
 
-// Blog = ({ user, blog, blogs, setBlogs, setNotification })
-// user: PropTypes.object.isRequired,
-// blog: PropTypes.object.isRequired,
-// blogs: PropTypes.arrayOf(PropTypes.object).isRequired,
-// setBlogs: PropTypes.func.isRequired,
-// setNotification: PropTypes.func.isRequired,
+vi.mock("@tanstack/react-query", () => ({
+  useMutation: () => ({ mutate: vi.fn(), isPending: false }),
+  useQueryClient: vi.fn(),
+}))
+
+vi.mock("react-router-dom", () => ({
+  useNavigate: vi.fn(),
+}))
+
+//  Blog = ({ blog })
+//  type blog {
+//    title: string;
+//    url: string;
+//    likes: number;
+//    user: user;
+//    comments: [string];
+//  }
 describe("<Blog />", () => {
-  const mockUser = {};
-  // const mockBlog = {};
-  const mockBlogs = [{}];
-  const mockSetBlogs = vi.fn();
-  const mockSetNotification = vi.fn();
+  const mockBlog = {
+    id: "1",
+    title: "Testing blog",
+    author: "ME",
+    url: "some url",
+    likes: 10,
+    comments: ["comment 1", "comment 2"],
+  }
 
-  it("renders the blog's title and author, but does not render its URL or number of likes by default", () => {
-    const testData = {
-      title: "Testing blog",
-      author: "ME",
-      url: "should not render",
-      likes: 10,
-    };
-    render(
-      <Blog
-        user={mockUser}
-        blog={testData}
-        blogs={mockBlogs}
-        setBlogs={mockSetBlogs}
-        setNotification={mockSetNotification}
-      />
-    );
-    const textToRender = screen.getByText(/Testing blog - by ME/i);
-    const toNotRender1 = screen.queryByText(/should not render/);
-    const toNotRender2 = screen.queryByText(/likes 10/);
+  const mockShowNotification = vi.fn();
+  const mockNavigate = vi.fn();
+  const mockQueryClient = {
+    getQueryData: vi.fn(),
+    setQueryData: vi.fn(),
+  };
 
-    expect(textToRender).toBeDefined();
-    expect(toNotRender1).toBeNull();
-    expect(toNotRender2).toBeNull();
+  beforeEach(() => {
+    vi.clearAllMocks();
+    useNavigate.mockReturnValue(mockNavigate);
+    useQueryClient.mockReturnValue(mockQueryClient);
   });
 
-  it("blog's URL and number of likes are shown when the button controlling the shown details is clicked", async () => {
-    const testData = {
-      title: "testing in react",
-      author: "some author",
-      url: "some url",
-      likes: 20,
-    };
-
+  it("renders the blog's title, author, likes, url and comments", () => {
     render(
-      <Blog
-        user={mockUser}
-        blog={testData}
-        blogs={mockBlogs}
-        setBlogs={mockSetBlogs}
-        setNotification={mockSetNotification}
-      />
+      <Context.Provider value={{ showNotification: mockShowNotification }}>
+        <Blog blog={mockBlog} />
+      </Context.Provider>
     );
+    const text1 = screen.getByText(/Testing blog/);
+    const text2 = screen.getByText(/some url/);
+    const text3 = screen.getByText(/10/);
+    const text4 = screen.getByText(/comment 1/);
+    const text5 = screen.getByText(/comment 2/);
 
-    const button = screen.getByText("view");
-
-    const user = userEvent.setup();
-    await user.click(button);
-
-    screen.getByText(/some url/);
-    screen.getByText(/likes 20/);
+    expect(text1).toBeDefined();
+    expect(text2).toBeDefined();
+    expect(text3).toBeDefined();
+    expect(text4).toBeDefined();
+    expect(text5).toBeDefined();
   });
 
-  it("if like button is clicked twice, two clicks are registered", async () => {
-    // DISABLE THIS TEST FROM LOGGING TO CONSOLE
-    // Store the original console methods
-    const originalConsoleLog = console.log;
-    const originalConsoleError = console.error;
+  it("remove button is shown if the blog is written by the user", () => {
+    mockBlog.user = { username: "same" };
 
-    // Override console methods to suppress output
-    console.log = () => {};
-    console.error = () => {};
-
-    const testData = {
-      title: "testing in react",
-      author: "some author",
-      url: "some url",
-      likes: 15,
-    };
     render(
-      <Blog
-        user={mockUser}
-        blog={testData}
-        blogs={mockBlogs}
-        setBlogs={mockSetBlogs}
-        setNotification={mockSetNotification}
-      />
+      <Context.Provider value={{ user: { username: "same" } , showNotification: mockShowNotification }}>
+        <Blog blog={mockBlog} />
+      </Context.Provider>
     );
 
-    const viewButton = screen.getByText("view");
-
-    const user = userEvent.setup();
-    await user.click(viewButton);
-
-    const likeButton = screen.getByText("like");
-    await user.dblClick(likeButton);
-
-    // NOTE - we check that handleUpdateLikes is called to update the likes on the blog post by checking
-    // that the function that is called on an error, which is setNotification, is called 2 times
-    // the api request will always fail and throw an error since we're passing mock objects instead of proper objects
-    expect(mockSetNotification.mock.calls.length).toBe(2);
-
-    // Restore the original console methods
-    console.log = originalConsoleLog;
-    console.error = originalConsoleError;
-  });
+    const removeButton = screen.getByRole("button", { name: "remove" });
+    expect(removeButton).toBeDefined()
+  })
 });
