@@ -14,10 +14,13 @@ import UsersPage from "./views/UsersPage";
 import NavigationBar from "./components/NavigationBar";
 
 const App = () => {
-  const { autoLogin } = useContext(Context);
+  const { autoLogin, showNotification } = useContext(Context);
 
   useEffect(() => {
-    autoLogin();
+    const user = autoLogin();
+    if (user) {
+      showNotification(`success.Logged in as ${user.name}`);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

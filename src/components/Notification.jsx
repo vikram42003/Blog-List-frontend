@@ -4,7 +4,10 @@ import { Context } from "../ContextProvider";
 const Notification = () => {
   const { notification } = useContext(Context);
 
-  if (!notification) return null;
+  console.log("Notification was called with - ", notification);
+
+  if (notification) console.log("NOTIFICATION IS: ", notification);
+  if (!notification) return <div>TEST</div>;
 
   const successSvg = (
     <svg

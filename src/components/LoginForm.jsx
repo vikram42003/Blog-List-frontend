@@ -7,14 +7,19 @@ const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { login } = useContext(Context);
+  const { login, showNotification } = useContext(Context);
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    await login({ username, password });
-    navigate("/");
-    setUsername("");
-    setPassword("");
+    try {
+      await login({ username, password });
+      // navigate("/");
+      setUsername("");
+      setPassword("");
+    } catch (error) {
+      console.log("Login Failed! - \n", error);
+      showNotification(`failure.Could not log in - ${error?.response?.data?.error}`);
+    }
   };
 
   return (

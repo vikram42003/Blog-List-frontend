@@ -4,12 +4,13 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Context } from "../ContextProvider";
 
 const NavigationBar = () => {
-  const { user, logout } = useContext(Context);
+  const { user, logout, showNotification } = useContext(Context);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
     navigate("/login");
+    showNotification("success.Successfully logged out");
   };
 
   return (
