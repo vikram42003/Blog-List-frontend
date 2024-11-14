@@ -15,6 +15,33 @@ describe("Blog app", () => {
     await page.goto("/");
   });
 
+  test("The homepage is shown", async ({ page }) => {
+    const appName = page.getByText("Blog App");
+    const navItem1 = page.getByText("blogs", { exact: true });
+    const navItem2 = page.getByText("users");
+    const loginButton = page.getByText("Log in");
+
+    await expect(appName).toBeVisible();
+    await expect(navItem1).toBeVisible();
+    await expect(navItem2).toBeVisible();
+    await expect(loginButton).toBeVisible();
+  });
+
+  describe("Login Page", () => {
+    test.only("Clicking on 'Log in' takes you to the login page", async ({ page }) => {
+      const loginButton = page.getByRole("link", { name: "Log in" });
+      loginButton.click();
+
+      const usernameField = page.getByText("username");
+      const passwordField = page.getByText("password");
+      const loginButton2 = page.getByRole("button", { name: "Login" });
+
+      await expect(usernameField).toBeVisible();
+      await expect(passwordField).toBeVisible();
+      await expect(loginButton2).toBeVisible();
+    });
+  });
+
   test("Login form is shown", async ({ page }) => {
     const heading = page.getByText("log in to application");
     const usernameField = page.getByText("username");
