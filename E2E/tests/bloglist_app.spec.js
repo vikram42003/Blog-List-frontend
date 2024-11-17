@@ -40,6 +40,28 @@ describe("Blog app", () => {
       await expect(passwordField).toBeVisible();
       await expect(loginButton2).toBeVisible();
     });
+
+    test.only("A valid user can login", async ({ page }) => {
+      const loginButton = page.getByRole("link", { name: "Log in" });
+      loginButton.click();
+
+      await loginWith(page, "test", "12345");
+
+      await expect(page.getByText("logged in as test", { exact: true })).toBeVisible();
+      await expect(page.url()).toBe("http://localhost:5173/");
+    });
+
+    test.only("An invalid user cannot login", async ({ page }) => {
+      const loginButton = page.getByRole("link", { name: "Log in" });
+      loginButton.click();
+
+      await loginWith(page, "wrong", "wrong");
+
+      await expect(
+        page.getByText("Could not log in - username or password is incorrect", { exact: true })
+      ).toBeVisible();
+      await expect(page.url()).toBe("http://localhost:5173/login");
+    });
   });
 
   test("Login form is shown", async ({ page }) => {
