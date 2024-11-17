@@ -19,7 +19,6 @@ export const useShowNotification = () => {
     dispatch({ type: "setNotification", payload: text });
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
-      console.log("notification before clearing is", notification);
       dispatch({ type: "clearNotification" });
     }, 5000);
   };

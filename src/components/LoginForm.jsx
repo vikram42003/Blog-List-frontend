@@ -13,13 +13,13 @@ const LoginForm = () => {
     event.preventDefault();
     try {
       await login({ username, password });
-      // navigate("/");
-      setUsername("");
-      setPassword("");
+      navigate("/");
+      showNotification(`success.logged in as ${username}`);
     } catch (error) {
-      console.log("Login Failed! - \n", error);
       showNotification(`failure.Could not log in - ${error?.response?.data?.error}`);
     }
+    setUsername("");
+    setPassword("");
   };
 
   return (

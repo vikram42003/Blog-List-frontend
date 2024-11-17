@@ -2,7 +2,6 @@ import { useReducer } from "react";
 
 import loginService from "../services/login";
 import blogsService from "../services/blogs";
-import { useShowNotification } from "./notificationReducer";
 
 const userReducer = (state, action) => {
   switch (action.type) {
@@ -37,7 +36,7 @@ export const useSetUser = () => {
   const logout = () => {
     dispatch({ type: "logout" });
     localStorage.removeItem("user");
-    blogsService.setToken(null);
+    blogsService.setToken(null);9
   };
 
   return {
