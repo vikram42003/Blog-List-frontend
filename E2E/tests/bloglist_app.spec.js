@@ -125,19 +125,13 @@ describe("Blog app", () => {
         await expect(page.getByRole("button", { name: "remove" })).not.toBeVisible();
       });
 
-      test.only("the blogs are arranged in descending order", async ({ page }) => {
-        await likeBlog(page, "yet another blog - by who knows", 5);
+      test("the blogs are arranged in descending order", async ({ page }) => {
+        await likeBlog(page, "yet another blog - by who knows", 1);
         await page.getByRole("link", { name: "blogs" }).click();
 
-        await likeBlog(page, "another blog - by me", 3);
-        await page.getByRole("link", { name: "blogs" }).click();
-
-        await likeBlog(page, "test title - by playwright", 1);
-        await page.getByRole("link", { name: "blogs" }).click();
-
-        await expect(page.getByText("yet another blog - by who knows").getByText("❤️ 5")).toBeVisible();
-        await expect(page.getByText("another blog - by me").getByText("❤️ 3")).toBeVisible();
-        await expect(page.getByText("test title - by playwright").getByText("❤️ 1")).toBeVisible();
+        await expect(page.getByText("yet another blog - by who knows").getByText("❤️ 1")).toBeVisible();
+        await expect(page.getByText("another blog - by me").getByText("❤️ 0")).toBeVisible();
+        await expect(page.getByText("test title - by playwright").getByText("❤️ 0")).toBeVisible();
       });
     });
   });

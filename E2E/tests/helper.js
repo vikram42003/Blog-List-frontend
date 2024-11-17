@@ -19,8 +19,8 @@ const likeBlog = async (page, title, num) => {
   await page.getByText(title).click();
   const likeButton = await page.getByRole("button", { name: "like" });
   for (let i = 0; i < num; i++) {
+    await page.getByText(`${i}`).waitFor({ state: "visible", timeout: 3000 });
     await likeButton.click();
-    // await page.getByText(`❤️ ${i + 1}`).waitFor({ state: "visible", timeout: 30000 });
   }
 };
 

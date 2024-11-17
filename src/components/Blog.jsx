@@ -20,7 +20,7 @@ const Blog = ({ blog }) => {
       queryClient.setQueryData(
         ["blogs"],
         blogs
-          .map((b) => (b.id === likedBlog.id ? { ...b, likes: likedBlog.likes + 1 } : b))
+          .map((b) => (b.id === likedBlog.id ? { ...b, likes: b.likes + 1 } : b))
           .sort((a, b) => b.likes - a.likes)
       );
     },
