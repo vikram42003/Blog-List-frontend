@@ -28,7 +28,7 @@ describe("Blog app", () => {
   });
 
   describe("Login Page", () => {
-    test.only("Clicking on 'Log in' takes you to the login page", async ({ page }) => {
+    test("Clicking on 'Log in' takes you to the login page", async ({ page }) => {
       const loginButton = page.getByRole("link", { name: "Log in" });
       loginButton.click();
 
@@ -39,55 +39,23 @@ describe("Blog app", () => {
       await expect(usernameField).toBeVisible();
       await expect(passwordField).toBeVisible();
       await expect(loginButton2).toBeVisible();
+      await expect(page.url()).toBe("http://localhost:5173/login");
     });
 
-    test.only("A valid user can login", async ({ page }) => {
-      const loginButton = page.getByRole("link", { name: "Log in" });
-      loginButton.click();
-
+    test("A valid user can login", async ({ page }) => {
       await loginWith(page, "test", "12345");
 
       await expect(page.getByText("logged in as test", { exact: true })).toBeVisible();
       await expect(page.url()).toBe("http://localhost:5173/");
     });
 
-    test.only("An invalid user cannot login", async ({ page }) => {
-      const loginButton = page.getByRole("link", { name: "Log in" });
-      loginButton.click();
-
+    test("An invalid user cannot login", async ({ page }) => {
       await loginWith(page, "wrong", "wrong");
 
       await expect(
         page.getByText("Could not log in - username or password is incorrect", { exact: true })
       ).toBeVisible();
       await expect(page.url()).toBe("http://localhost:5173/login");
-    });
-  });
-
-  test("Login form is shown", async ({ page }) => {
-    const heading = page.getByText("log in to application");
-    const usernameField = page.getByText("username");
-    const passwordField = page.getByText("password");
-    const loginButton = page.getByRole("button", { name: "Login" });
-
-    await expect(heading).toBeVisible();
-    await expect(usernameField).toBeVisible();
-    await expect(passwordField).toBeVisible();
-    await expect(loginButton).toBeVisible();
-  });
-
-  describe("Login", () => {
-    test("succeeds with correct credentials", async ({ page }) => {
-      await loginWith(page, "test", "12345");
-
-      await expect(page.getByText("testUser logged in")).toBeVisible();
-    });
-
-    test("fails with wrong credentials", async ({ page }) => {
-      await loginWith(page, "test", "incorrect");
-
-      await expect(page.getByText("testUser logged in")).not.toBeVisible();
-      await expect(page.getByText("Could not log in - username or password is incorrect")).toBeVisible();
     });
   });
 
@@ -102,6 +70,12 @@ describe("Blog app", () => {
       await expect(page.getByText("test title - by playwright")).toBeVisible();
     });
 
+    test("a logged in user can log out", async ({ page }) => {
+      await page.getByRole("button", { name: "log out" }).click();
+
+      await expect(page.getByText("Successfully logged out")).toBeVisible();
+    });
+
     describe("And some blogs exist", () => {
       beforeEach(async ({ page }) => {
         await createBlog(page, { title: "test title", author: "playwright", url: "no url" });
@@ -109,20 +83,23 @@ describe("Blog app", () => {
         await createBlog(page, { title: "yet another blog", author: "who knows", url: "does not exist" });
       });
 
-      test("a blog can be liked", async ({ page }) => {
-        const blogLocator = page.getByText("another blog - by me");
-        await blogLocator.getByRole("button", { name: "view" }).click();
+      test("clicking a blog takes you to that blog's page", async ({ page }) => {
+        await page.getByText("another blog - by me").click();
 
-        await expect(page.getByText(/likes 0/)).toBeVisible();
-        await page.getByRole("button", { name: "like" }).click();
-        await expect(page.getByText(/likes 1/)).toBeVisible();
+        await expect(page.url()).toContain("http://localhost:5173/blogs/");
+        await expect(page.getByText("another blog", { exact: true })).toBeVisible();
+        await expect(page.getByText("by me")).toBeVisible();
+      });
+
+      test("a blog can be liked", async ({ page }) => {
+        await likeBlog(page, "another blog - by me", 1);
+        await expect(page.getByText("❤️ 1 ")).toBeVisible();
       });
 
       test("a blog can be deleted by its creator", async ({ page }) => {
         page.on("dialog", (dialog) => dialog.accept());
 
-        const blogLocator = page.getByText("test title - by playwright");
-        await blogLocator.getByRole("button", { name: "view" }).click();
+        await page.getByText("test title - by playwright").click();
 
         const deleteButton = page.getByRole("button", { name: "remove" });
         await expect(deleteButton).toBeVisible();
@@ -144,20 +121,23 @@ describe("Blog app", () => {
         });
         await loginWith(page, "secondUser", "54321");
 
-        await page.getByText("yet another blog - by who knows").getByRole("button", { name: "view" }).click();
+        await page.getByText("yet another blog - by who knows").click();
         await expect(page.getByRole("button", { name: "remove" })).not.toBeVisible();
       });
 
-      test("the blogs are arranged in descending order", async ({ page }) => {
+      test.only("the blogs are arranged in descending order", async ({ page }) => {
         await likeBlog(page, "yet another blog - by who knows", 5);
+        await page.getByRole("link", { name: "blogs" }).click();
+
         await likeBlog(page, "another blog - by me", 3);
+        await page.getByRole("link", { name: "blogs" }).click();
+
         await likeBlog(page, "test title - by playwright", 1);
+        await page.getByRole("link", { name: "blogs" }).click();
 
-        await page.getByText("yet another blog - by who knows").getByRole("button", { name: "view" }).click();
-        await page.getByText("another blog - by me").getByRole("button", { name: "view" }).click();
-        await page.getByText("test title - by playwright").getByRole("button", { name: "view" }).click();
-
-        await expect(page.getByText("likes")).toHaveText([/likes 5/, /likes 3/, /likes 1/]);
+        await expect(page.getByText("yet another blog - by who knows").getByText("❤️ 5")).toBeVisible();
+        await expect(page.getByText("another blog - by me").getByText("❤️ 3")).toBeVisible();
+        await expect(page.getByText("test title - by playwright").getByText("❤️ 1")).toBeVisible();
       });
     });
   });

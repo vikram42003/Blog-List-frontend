@@ -1,4 +1,5 @@
 const loginWith = async (page, username, password) => {
+  await page.getByRole("link", { name: "Log in" }).click();
   await page.getByLabel("username").fill(username);
   await page.getByLabel("password").fill(password);
   await page.getByRole("button", { name: "Login" }).click();
@@ -15,12 +16,12 @@ const createBlog = async (page, blog) => {
 };
 
 const likeBlog = async (page, title, num) => {
-  await page.getByText(title).getByRole("button", { name: "view" }).click();
-  const likeButton = await page.getByText(/likes/).getByRole("button", { name: "like" });
+  await page.getByText(title).click();
+  const likeButton = await page.getByRole("button", { name: "like" });
   for (let i = 0; i < num; i++) {
     await likeButton.click();
+    // await page.getByText(`❤️ ${i + 1}`).waitFor({ state: "visible", timeout: 30000 });
   }
-  await page.getByText(`likes ${num}`).getByRole("button", { name: "hide" }).click();
 };
 
 module.exports = { loginWith, createBlog, likeBlog };

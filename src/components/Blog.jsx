@@ -24,9 +24,6 @@ const Blog = ({ blog }) => {
           .sort((a, b) => b.likes - a.likes)
       );
     },
-    onSuccess: () => {
-      showNotification("Blog liked")
-    },
     onError: (error, likedBlog) => {
       // Rollback optimistic update
       console.log(error);
